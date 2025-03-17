@@ -1,14 +1,15 @@
 name = "robot-logs"
 
 account_id = "15b0ccd4c68c56b4231b01eb799d53e8"
-workers_dev = true  # Set this to false if deploying to a production environment
+workers_dev = false  # Set to false for production environment
 compatibility_flags = []
 
 compatibility_date = "2025-03-17"
 
 [build]
-command = "mkdocs build"  # Build the site using MkDocs.
-directory = "site"         # The default output directory for MkDocs is 'site'.
+command = "mkdocs build"  # Run MkDocs to build the site
+directory = "site"         # MkDocs outputs to the 'site' directory
 
 [pages]
-pages_build_output_dir = "site"
+# This section specifies where Pages will serve static files from
+pages_build_output_dir = "site"  # The directory to deploy from
