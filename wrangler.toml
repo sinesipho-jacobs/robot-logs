@@ -1,15 +1,14 @@
-name = "demo-project"
+name = "robot-logs"
 
 account_id = "15b0ccd4c68c56b4231b01eb799d53e8"
 workers_dev = true  # Set this to false if deploying to a production environment
 compatibility_flags = []
 
-# Specify the path to your entry-point script
-main = "./ancient-disk-7428/src/index.js"  # Adjust the path to your main Worker file
-
 compatibility_date = "2025-03-17"
 
-# Add the site section to serve static assets from the "site" folder
-[[site]]
-bucket = "./site"  # Path to your MkDocs-generated HTML files
-# entry-point = "./ancient-disk-7428/src/index.js"  # Your worker's entry point
+[build]
+command = "mkdocs build"  # Build the site using MkDocs.
+directory = "site"         # The default output directory for MkDocs is 'site'.
+
+[pages]
+pages_build_output_dir = "site"
