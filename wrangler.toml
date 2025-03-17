@@ -12,4 +12,4 @@ compatibility_date = "2025-03-17"
 # Add the site section to serve static assets from the "site" folder
 [[site]]
 bucket = "./site"  # Path to your MkDocs-generated HTML files
-//entry-point = "./ancient-disk-7428/src/index.js"  # Your worker's entry point
+# entry-point = "./ancient-disk-7428/src/index.js"  # Your worker's entry point
