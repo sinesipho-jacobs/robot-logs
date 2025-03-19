@@ -2,4 +2,4 @@
 
 The latest test results can be found here:
 
-- [Latest Test Logs](reports/log.html)
+- [Latest Test Logs](./log.html)
