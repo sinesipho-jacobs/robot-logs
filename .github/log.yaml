@@ -1,38 +1,42 @@
-name: Build and Deploy MkDocs with Robot Reports
+name: Deploy MkDocs to Cloudflare Pages
 
 on:
-  workflow_run:
-    workflows: ["Run and Merge Robot Tests"]  # Name of the workflow in the test repo
-    branches: [main]
-    types:
-      - completed
+  push:
+    branches:
+      - main  # Adjust based on your workflow
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout MkDocs Code
-        uses: actions/checkout@v3
+      - name: Checkout MkDocs Repository
+        uses: actions/checkout@v4
 
-      - name: Download Robot Framework Reports
-        uses: actions/download-artifact@v3
+      - name: Checkout Test Workflow Repository (Robot Logs)
+        uses: actions/checkout@v4
         with:
-          name: robot-reports
-          path: docs/reports/
-          repository: sinesipho-jacobs/test-workflow  # Replace with your test repo
-          run-id: ${{ github.event.workflow_run.id }}
+          repository: sinesipho-jacobs/test-workflow
+          path: test-workflow
 
-      - name: Inject Build Number
+      - name: Copy Robot Logs
         run: |
-          echo "Build Number: ${{ github.event.workflow_run.id }}" >> docs/reports.md
+          mkdir -p docs/reports
+          cp -r test-workflow/robot-test-results/* docs/reports/
+          ls -lah docs/reports
+
+      - name: Install MkDocs
+        run: pip install mkdocs
 
       - name: Build MkDocs Site
-        run: mkdocs build
+        run: mkdocs build --strict
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: robot-logs
-          directory: site/
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          projectName: robot-logs  # Adjust to your Cloudflare Pages project name
+          directory: site  # MkDocs output directory
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
