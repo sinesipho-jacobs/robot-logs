@@ -24,7 +24,7 @@ jobs:
       - name: Copy Robot Logs
         run: |
           mkdir -p docs/reports
-          cp -r test-workflow/robot-test-results/* docs/reports/
+          cp -r test-workflow/merged-results/* docs/reports/
           ls -lah docs/reports
           
       - name: Append Build Number to Reports Page
