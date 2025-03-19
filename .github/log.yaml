@@ -25,7 +25,12 @@ jobs:
           mkdir -p docs/reports
           cp -r test-workflow/robot-test-results/* docs/reports/
           ls -lah docs/reports
-
+          
+      - name: Append Build Number to Reports Page
+        run: |
+          echo "## Test Reports" > docs/reports.md
+          echo "- [Latest Logs (Build $GITHUB_RUN_NUMBER)](reports/log.html)" >> docs/reports.md
+          
       - name: Install MkDocs
         run: pip install mkdocs
 
