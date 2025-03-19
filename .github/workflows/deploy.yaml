@@ -24,6 +24,9 @@ jobs:
       - name: Debug Checkout
         run: ls -lah test-workflow
 
+      - name: Debug Checkout
+        run: ls -lah test-workflow/webapp-tests
+
       - name: Copy Robot Logs
         run: |
           mkdir -p docs/reports
