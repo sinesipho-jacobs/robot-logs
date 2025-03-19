@@ -26,6 +26,9 @@ jobs:
 
       - name: Debug Checkout
         run: ls -lah test-workflow/webapp_tests
+        
+      - name: Debug Checkout
+        run: ls -lah test-workflow/webapp_tests/api
 
       - name: Find and Merge Robot Framework logs
         run: |
