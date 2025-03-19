@@ -33,7 +33,8 @@ jobs:
           echo "- [Latest Logs (Build $GITHUB_RUN_NUMBER)](reports/log.html)" >> docs/reports.md
           
       - name: Install MkDocs
-        run: pip install mkdocs
+        run: pip install -r requirements.txt
+        # run: pip install mkdocs
 
       - name: Build MkDocs Site
         run: mkdocs build --strict
