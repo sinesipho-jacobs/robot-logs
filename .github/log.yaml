@@ -1,38 +1,38 @@
-name: Deploy MkDocs with Robot Logs
+name: Build and Deploy MkDocs with Robot Reports
 
 on:
-  workflow_dispatch:  # Allows manual trigger
-  push:
-    branches:
-      - main  # Adjust based on your default branch
-  schedule:
-    - cron: '0 2 * * *'  # Runs daily at 2 AM (adjust as needed)
+  workflow_run:
+    workflows: ["Robot Framework Tests"]  # Name of the workflow in the test repo
+    branches: [main]
+    types:
+      - completed
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout MkDocs Repository
-        uses: actions/checkout@v4
+      - name: Checkout MkDocs Code
+        uses: actions/checkout@v3
 
-      - name: Download Robot Framework Logs from Test Repo
+      - name: Download Robot Framework Reports
+        uses: actions/download-artifact@v3
+        with:
+          name: robot-reports
+          path: docs/reports/
+          repository: sinesipho-jacobs/test-workflow  # Replace with your test repo
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Inject Build Number
         run: |
-          mkdir -p docs/logs  # Ensure logs directory exists
-          gh run download -R username/test-repo -n robot-test-results -D docs/logs
-        env:
-          GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}  # Use a PAT if needed
-
-      - name: Install Dependencies
-        run: pip install mkdocs mkdocs-material  # Add any plugins if needed
+          echo "Build Number: ${{ github.event.workflow_run.id }}" >> docs/reports.md
 
       - name: Build MkDocs Site
-        run: mkdocs build --clean
+        run: mkdocs build
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
-          accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          projectName: robot-logs  # Change to your project name
-          directory: site
-          apiToken: ${{ secrets.CF_API_TOKEN }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: robot-logs
+          directory: site/
