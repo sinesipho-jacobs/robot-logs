@@ -27,11 +27,12 @@ jobs:
       - name: Debug Checkout
         run: ls -lah test-workflow/webapp_tests
 
-      - name: Copy Robot Logs
-        run: |
-          mkdir -p docs/reports
-          cp -r test-workflow/merged-results/* docs/reports/
-          ls -lah docs/reports
+      - name: Download Merged Robot Logs
+        uses: actions/download-artifact@v4
+        with:
+          name: merged-robot-logs
+          path: docs/reports
+
           
       - name: Append Build Number to Reports Page
         run: |
