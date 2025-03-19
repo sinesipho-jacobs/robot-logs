@@ -2,7 +2,7 @@ name: Build and Deploy MkDocs with Robot Reports
 
 on:
   workflow_run:
-    workflows: ["Robot Framework Tests"]  # Name of the workflow in the test repo
+    workflows: ["Run and Merge Robot Tests"]  # Name of the workflow in the test repo
     branches: [main]
     types:
       - completed
