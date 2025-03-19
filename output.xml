@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Rebot 7.2.2 (Python 3.9.21 on linux)" generated="2025-03-19T19:25:59.503543" rpa="false" schemaversion="5">
+<robot generator="Rebot 7.2.2 (Python 3.9.21 on linux)" generated="2025-03-19T19:31:54.531880" rpa="false" schemaversion="5">
 <suite id="s1" name="Tests" source="/home/runner/work/test-workflow/test-workflow/webapp_tests/tests">
 <suite id="s1-s1" name="New" source="/home/runner/work/test-workflow/test-workflow/webapp_tests/tests/new.robot">
 <test id="s1-s1-t1" name="Test Case 1 - Passing Test" line="6">
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-03-19T19:25:42.330638" level="INFO">Slept 3 seconds.</msg>
+<msg time="2025-03-19T19:31:37.775786" level="INFO">Slept 3 seconds.</msg>
 <arg>3</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-03-19T19:25:39.330287" elapsed="3.000540"/>
+<status status="PASS" start="2025-03-19T19:31:34.775454" elapsed="3.000517"/>
 </kw>
 <doc>This test should pass.</doc>
-<status status="PASS" start="2025-03-19T19:25:39.329342" elapsed="3.001737"/>
+<status status="PASS" start="2025-03-19T19:31:34.774535" elapsed="3.001692"/>
 </test>
-<status status="PASS" start="2025-03-19T19:25:39.312891" elapsed="3.018843"/>
+<status status="PASS" start="2025-03-19T19:31:34.758206" elapsed="3.018692"/>
 </suite>
 <suite id="s1-s2" name="Test" source="/home/runner/work/test-workflow/test-workflow/webapp_tests/tests/test.robot">
 <test id="s1-s2-t1" name="Test Case 4 - Conditional Test" line="18">
 <kw name="Set Variable" owner="BuiltIn">
-<msg time="2025-03-19T19:25:42.336015" level="INFO">${value} = 10</msg>
+<msg time="2025-03-19T19:31:37.781504" level="INFO">${value} = 10</msg>
 <var>${value}</var>
 <arg>10</arg>
 <doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2025-03-19T19:25:42.335746" elapsed="0.000317"/>
+<status status="PASS" start="2025-03-19T19:31:37.781213" elapsed="0.000343"/>
 </kw>
 <kw name="Run Keyword If" owner="BuiltIn">
 <kw name="Log" owner="BuiltIn">
-<msg time="2025-03-19T19:25:42.336868" level="INFO">✅ Condition Met</msg>
+<msg time="2025-03-19T19:31:37.782411" level="INFO">✅ Condition Met</msg>
 <arg>✅ Condition Met</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2025-03-19T19:25:42.336689" elapsed="0.000260"/>
+<status status="PASS" start="2025-03-19T19:31:37.782216" elapsed="0.000271"/>
 </kw>
 <arg>${value} == 10</arg>
 <arg>Log</arg>
 <arg>✅ Condition Met</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-03-19T19:25:42.336287" elapsed="0.000743"/>
+<status status="PASS" start="2025-03-19T19:31:37.781773" elapsed="0.000792"/>
 </kw>
 <kw name="Run Keyword If" owner="BuiltIn">
 <arg>${value} != 10</arg>
 <arg>Fail</arg>
 <arg>❌ Condition Failed</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-03-19T19:25:42.337243" elapsed="0.000255"/>
+<status status="PASS" start="2025-03-19T19:31:37.782748" elapsed="0.000222"/>
 </kw>
 <doc>Test with IF condition.</doc>
-<status status="PASS" start="2025-03-19T19:25:42.335092" elapsed="0.002606"/>
+<status status="PASS" start="2025-03-19T19:31:37.780586" elapsed="0.002565"/>
 </test>
-<status status="PASS" start="2025-03-19T19:25:42.332429" elapsed="0.005703"/>
+<status status="PASS" start="2025-03-19T19:31:37.777655" elapsed="0.005885"/>
 </suite>
-<status status="PASS" start="2025-03-19T19:25:39.293771" elapsed="3.045195"/>
+<status status="PASS" start="2025-03-19T19:31:34.739188" elapsed="3.045062"/>
 </suite>
 <statistics>
 <total>
