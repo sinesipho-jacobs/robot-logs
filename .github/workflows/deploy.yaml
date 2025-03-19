@@ -21,6 +21,9 @@ jobs:
           repository: sinesipho-jacobs/test-workflow
           path: test-workflow
 
+      - name: Debug Checkout
+        run: ls -lah test-workflow
+
       - name: Copy Robot Logs
         run: |
           mkdir -p docs/reports
