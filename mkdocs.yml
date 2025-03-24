@@ -5,7 +5,7 @@ theme:
 nav:
   - Home: index.md
   - Test Reports:
-      - Latest Report: reports.md
+      - Latest Report: latest/log.html
       - Build 366: 366/log.html
       - Build 365: 365/log.html
       - Build 364: 364/log.html
