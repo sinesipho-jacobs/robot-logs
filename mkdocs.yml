@@ -6,6 +6,7 @@ nav:
   - Home: index.md
   - Test Reports:
       - Latest Report: reports.md
+      - Build 368: 368/log.html
       - Build 367: 367/log.html
       - Build 366: 366/log.html
       - Build 365: 365/log.html
