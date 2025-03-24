@@ -2,7 +2,7 @@
 
 For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
-Robot Log [Latest Test Logs](log.html)
+Robot Log [Latest Test Logs](latest/log.html)
 
 ## Commands
 
