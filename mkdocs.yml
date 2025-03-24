@@ -1,8 +1,8 @@
+site_name: Robot Framework Logs
+theme:
+  name: material
+
 nav:
   - Home: index.md
-  - Latest Logs: latest/log.html
-  - Build 363: 363/log.html
-  - Build 362: 362/log.html
-  - Build 361: 361/log.html
-  - Build 358: 358/log.html
-  - Build 357: 357/log.html
+  - Test Reports:
+      - Latest Report: reports.md
