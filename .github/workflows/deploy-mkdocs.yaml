@@ -1,57 +1,49 @@
-name: Deploy MkDocs
+name: Deploy MkDocs with Robot Logs
 
 on:
   repository_dispatch:
-    types:
-      - deploy_docs
+    types: deploy-mkdocs
 
 jobs:
-  deploy:
+  build-and-deploy-mkdocs:
     runs-on: ubuntu-latest
+    permissions:
+        contents: write
     steps:
-      - name: "📥 Checkout Repository"
+      - name: "📥 Checkout MkDocs Repository"
         uses: actions/checkout@v4
 
-      - name: "📜 Install MkDocs and Dependencies"
-        run: |
-          pip install mkdocs mkdocs-material
+      - name: "⬇️ Download Test Results"
+        uses: actions/download-artifact@v4
+        with:
+          name: merged-results
+          path: ./merged-results
+          repository: sinesipho-jacobs/test-workflow
+          run-id: ${{ github.event.client_payload.run_id }}
+          token: ${{ secrets.ROBOT_LOGS_PAT }}
 
-      - name: "⬇️ Pull Logs from Docs Folder"
+      - name: "📂 Copy Logs to MkDocs Docs Folder"
         run: |
-          ls -lah docs/
-          echo "Test logs should be available in docs/latest/"
+          BUILD_NUMBER=${{ github.run_number }}
+          mkdir -p ./docs/$BUILD_NUMBER
+          cp -r ./merged-results/* ./docs/$BUILD_NUMBER/
+          rm -rf ./docs/latest
+          cp -r ./docs/$BUILD_NUMBER ./docs/latest
+
+      - name: "Update mkdocs.yml and Navigation"
+        run: |
+          # Simplified navigation update using a template or script
+          # This example assumes you have a script or template to generate navigation
+          python ./scripts/generate_mkdocs_nav.py
+
+      - name: "📜 Install MkDocs"
+        run: pip install mkdocs
+
+      - name: "📜 Install MkDocs Materials"
+        run: pip install mkdocs-material
 
       - name: "🔨 Build MkDocs Site"
         run: mkdocs build
-
-      - name: "🔗 Update mkdocs.yml with Build Links"
-        run: |
-          MKDOCS_CONFIG="./robot-logs/mkdocs.yml"
-      
-          # Backup the original mkdocs.yml
-          cp $MKDOCS_CONFIG $MKDOCS_CONFIG.bak
-      
-          # Extract everything before the "nav:" section
-          awk '/^nav:/{exit} {print}' $MKDOCS_CONFIG.bak > $MKDOCS_CONFIG
-      
-          echo "nav:" >> $MKDOCS_CONFIG
-          echo "  - Home: index.md" >> $MKDOCS_CONFIG
-          echo "  - Test Reports:" >> $MKDOCS_CONFIG
-          echo "      - Latest Report: reports.md" >> $MKDOCS_CONFIG
-      
-          # Generate list of builds dynamically
-          BUILDS=$(ls -d ./robot-logs/docs/*/ 2>/dev/null | grep -Eo '[0-9]+' | sort -nr || true)
-      
-          if [[ -z "$BUILDS" ]]; then
-            echo "      - No previous builds available" >> $MKDOCS_CONFIG
-          else
-            for BUILD in $BUILDS; do
-              echo "      - Build $BUILD: $BUILD/log.html" >> $MKDOCS_CONFIG
-            done
-          fi
-      
-          # Debug: Show the updated file
-          cat $MKDOCS_CONFIG
 
       - name: Deploy using Cloudflare API
         run: |
@@ -59,3 +51,8 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
             -H "Content-Type: application/json" \
             --data '{"branch": "main", "commit_hash": "${{ github.sha }}"}'
+
+      - name: "🔗 Add Cloudflare Pages Link to Summary"
+        run: |
+          echo "## 📄 Robot Framework Reports" >> $GITHUB_STEP_SUMMARY
+          echo "[View Reports on Cloudflare Pages](https://robot-logs.pages.dev)" >> $GITHUB_STEP_SUMMARY
