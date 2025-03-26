@@ -1,0 +1,32 @@
+name: Deploy MkDocs
+
+on:
+  repository_dispatch:
+    types:
+      - deploy_docs
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "📥 Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "📜 Install MkDocs and Dependencies"
+        run: |
+          pip install mkdocs mkdocs-material
+
+      - name: "⬇️ Pull Logs from Docs Folder"
+        run: |
+          ls -lah docs/
+          echo "Test logs should be available in docs/latest/"
+
+      - name: "🔨 Build MkDocs Site"
+        run: mkdocs build
+
+      - name: Deploy to Cloudflare Pages
+        run: |
+          curl -X POST "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/robot-logs/deployments" \
+          -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          --data '{"branch": "main", "commit_hash": "${{ github.sha }}"}'
