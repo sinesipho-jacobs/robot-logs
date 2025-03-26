@@ -30,11 +30,11 @@ jobs:
           rm -rf ./docs/latest
           cp -r ./docs/$BUILD_NUMBER ./docs/latest
 
-      - name: "Update mkdocs.yml and Navigation"
-        run: |
-          # Simplified navigation update using a template or script
-          # This example assumes you have a script or template to generate navigation
-          python ./scripts/generate_mkdocs_nav.py
+      # - name: "Update mkdocs.yml and Navigation"
+      #   run: |
+      #     # Simplified navigation update using a template or script
+      #     # This example assumes you have a script or template to generate navigation
+      #     python ./scripts/generate_mkdocs_nav.py
 
       - name: "📜 Install MkDocs"
         run: pip install mkdocs
