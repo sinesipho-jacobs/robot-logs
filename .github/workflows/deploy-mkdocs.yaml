@@ -20,7 +20,7 @@ jobs:
           path: ./merged-results
           repository: sinesipho-jacobs/test-workflow
           run-id: ${{ github.event.client_payload.run_id }}
-          token: ${{ secrets.ROBOT_LOGS_PAT }}
+          github-token: ${{ secrets.PAT }}
 
       - name: "📂 Copy Logs to MkDocs Docs Folder"
         run: |
