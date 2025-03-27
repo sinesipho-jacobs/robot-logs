@@ -56,3 +56,20 @@ jobs:
         run: |
           echo "## 📄 Robot Framework Reports" >> $GITHUB_STEP_SUMMARY
           echo "[View Reports on Cloudflare Pages](https://robot-logs.pages.dev)" >> $GITHUB_STEP_SUMMARY
+
+      - name: "🔗 Update Test-Workflow Summary with Deployment Link"
+        if: success()  # Only if deployment succeeds
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}  # PAT with `repo` scope
+        run: |
+          # Add link to THIS deployment
+          DEPLOYMENT_LINK="https://robot-logs.pages.dev/${{ github.run_number }}/"
+          
+          # Post back to the original test-workflow run
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/sinesipho-jacobs/test-workflow/actions/runs/${{ github.event.client_payload.run_id }}/comments" \
+            -f body="## 🚀 Deployment Complete
+            - [View Reports on Cloudflare]($DEPLOYMENT_LINK)
+            - [Debug Logs](https://github.com/sinesipho-jacobs/robot-logs/actions/runs/${{ github.run_id }})"
